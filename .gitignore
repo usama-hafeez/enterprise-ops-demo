@@ -1,0 +1,20 @@
+# environment - never commit secrets
+.env
+.env.*
+!.env.example
+
+# dependencies and build output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.angular/
+
+# generated artifacts (rebuilt from the seed script)
+packages/web/src/assets/seed.sqlite
+
+# editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

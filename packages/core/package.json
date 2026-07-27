@@ -1,0 +1,22 @@
+{
+  "name": "@enterprise-ops/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dialect-agnostic pipeline logic shared by the NestJS server, the browser demo, and the benchmark harness.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "sql.js": "^1.13.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/sql.js": "^1.4.9",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
+  }
+}
