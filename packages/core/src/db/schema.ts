@@ -112,6 +112,15 @@ export function tableDdl(dialect: Dialect): string[] {
       FOREIGN KEY (customer_id) REFERENCES customers (id),
       FOREIGN KEY (payment_id) REFERENCES payments (id)
     )${engine}`,
+    // Permanent single-column indexes on the two foreign keys that also lead
+    // a composite index. InnoDB keeps an implicit index on every foreign key
+    // but silently drops it once a user index with the same leading column
+    // exists - which would make idx_stock_alloc / idx_invoices_fifo
+    // impossible to drop again ("needed in a foreign key constraint").
+    // Declaring the indexes ourselves pins them, so the composites stay
+    // freely creatable and droppable.
+    'CREATE INDEX idx_stock_product ON stock (product_id)',
+    'CREATE INDEX idx_invoices_customer ON invoices (customer_id)',
   ];
 }
 
@@ -155,6 +164,27 @@ export async function resetSchema(db: DbExecutor): Promise<void> {
     await db.run(`DROP TABLE IF EXISTS ${table}`);
   }
   await applySchema(db);
+}
+
+/**
+ * Empties every table and resets auto-increment counters, leaving the schema
+ * (and whatever indexes exist) in place. Faster than drop-and-recreate when
+ * reseeding between benchmark runs, and keeps generated ids deterministic.
+ */
+export async function truncateAll(db: DbExecutor): Promise<void> {
+  if (db.dialect === 'mysql') {
+    await db.run('SET FOREIGN_KEY_CHECKS = 0');
+    for (const table of TABLES_DROP_ORDER) {
+      await db.run(`TRUNCATE TABLE ${table}`);
+    }
+    await db.run('SET FOREIGN_KEY_CHECKS = 1');
+  } else {
+    for (const table of TABLES_DROP_ORDER) {
+      await db.run(`DELETE FROM ${table}`);
+    }
+    // Reset AUTOINCREMENT counters so both dialects hand out the same ids.
+    await db.run("DELETE FROM sqlite_sequence WHERE name IN ('" + TABLES_DROP_ORDER.join("', '") + "')");
+  }
 }
 
 async function mysqlIndexExists(db: DbExecutor, index: IndexDef): Promise<boolean> {
