@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-07-29T11:08:00.831Z",
+  "mysqlVersion": "8.0.46",
+  "volumes": {
+    "seed": 42,
+    "products": 12500,
+    "customers": 200,
+    "requisitions": 1000,
+    "maxLinesPerRequisition": 5,
+    "maxQtyPerLine": 20,
+    "invoices": 20000,
+    "payments": 5000
+  },
+  "naive": {
+    "queries": 40128,
+    "wallMs": 66064,
+    "peakRssBytes": 128049152,
+    "outputHash": "000035238af06cfc3b461a4f",
+    "totals": {
+      "requisitions": 1000,
+      "lines": 3043,
+      "allocations": 4135,
+      "backorders": 145,
+      "invoicesCreated": 999,
+      "payments": 5000,
+      "applications": 8324,
+      "credits": 0
+    }
+  },
+  "optimized": {
+    "queries": 283,
+    "wallMs": 2947,
+    "peakRssBytes": 122527744,
+    "outputHash": "000035238af06cfc3b461a4f",
+    "totals": {
+      "requisitions": 1000,
+      "lines": 3043,
+      "allocations": 4135,
+      "backorders": 145,
+      "invoicesCreated": 999,
+      "payments": 5000,
+      "applications": 8324,
+      "credits": 0
+    }
+  },
+  "change": {
+    "queriesPct": -99.3,
+    "wallPct": -95.5,
+    "peakRssPct": -4.3
+  }
+}

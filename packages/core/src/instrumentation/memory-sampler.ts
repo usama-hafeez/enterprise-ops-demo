@@ -1,10 +1,10 @@
 /**
  * Samples process RSS on an interval and keeps the maximum. Sampling can miss
  * a short spike between ticks - the README states peak memory is sampled,
- * not exact.
+ * not exact. Node-only: the browser demo never constructs it.
  */
 export class MemorySampler {
-  private timer: NodeJS.Timeout | undefined;
+  private timer: ReturnType<typeof setInterval> | undefined;
   private peak = 0;
 
   start(intervalMs = 25): void {

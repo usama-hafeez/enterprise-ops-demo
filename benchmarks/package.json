@@ -1,0 +1,15 @@
+{
+  "name": "@enterprise-ops/benchmarks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Runs the naive and optimized pipelines against MySQL and prints the comparison table the README quotes.",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "bench": "npm run build && node dist/run.js"
+  },
+  "dependencies": {
+    "@enterprise-ops/core": "0.1.0",
+    "@enterprise-ops/server": "0.1.0"
+  }
+}

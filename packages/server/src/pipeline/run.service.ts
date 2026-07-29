@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'mysql2/promise';
 import {
+  MemorySampler,
   PipelineRunResult,
   SeedConfig,
   Variant,
@@ -12,7 +13,6 @@ import {
 } from '@enterprise-ops/core';
 import { seedConfigFromEnv } from '../env';
 import { MysqlExecutor } from '../db/mysql-executor';
-import { MemorySampler } from './memory-sampler';
 
 export const DB_POOL = 'DB_POOL';
 

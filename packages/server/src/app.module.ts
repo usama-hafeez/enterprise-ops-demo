@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { createPool } from 'mysql2/promise';
-import { env } from './env';
+import { createAppPool } from './db/pool';
 import { DB_POOL, RunService } from './pipeline/run.service';
 import { PipelineController } from './pipeline/pipeline.controller';
 import { CsvController } from './export/csv.controller';
@@ -10,14 +9,7 @@ import { CsvController } from './export/csv.controller';
   providers: [
     {
       provide: DB_POOL,
-      useFactory: () =>
-        createPool({
-          ...env.mysql,
-          connectionLimit: 25,
-          // Return DATETIME columns as strings, matching SQLite, so the two
-          // executors are interchangeable.
-          dateStrings: true,
-        }),
+      useFactory: () => createAppPool(),
     },
     RunService,
   ],

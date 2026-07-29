@@ -8,12 +8,14 @@
     "node": ">=22"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "benchmarks"
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "bench": "npm run bench -w benchmarks",
     "format": "prettier --write \"packages/*/src/**/*.ts\" \"benchmarks/**/*.ts\"",
     "format:check": "prettier --check \"packages/*/src/**/*.ts\" \"benchmarks/**/*.ts\""
   },

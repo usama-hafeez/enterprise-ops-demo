@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as dotenv from 'dotenv';
-import { SeedConfig, defaultSeedConfig } from '@enterprise-ops/core';
+import { SeedConfig, seedConfigFrom } from '@enterprise-ops/core';
 
 // Load the repo-root .env; real environment variables still win.
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
@@ -24,13 +24,5 @@ export const env = {
 };
 
 export function seedConfigFromEnv(): SeedConfig {
-  return {
-    ...defaultSeedConfig,
-    seed: num('SEED', defaultSeedConfig.seed),
-    products: num('SEED_PRODUCTS', defaultSeedConfig.products),
-    customers: num('SEED_CUSTOMERS', defaultSeedConfig.customers),
-    requisitions: num('SEED_REQUISITIONS', defaultSeedConfig.requisitions),
-    invoices: num('SEED_INVOICES', defaultSeedConfig.invoices),
-    payments: num('SEED_PAYMENTS', defaultSeedConfig.payments),
-  };
+  return seedConfigFrom(process.env);
 }

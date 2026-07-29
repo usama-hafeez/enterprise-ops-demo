@@ -2,6 +2,7 @@ export * from './db/executor';
 export * from './db/instrumented';
 export * from './db/schema';
 export * from './db/sqljs-executor';
+export * from './instrumentation/memory-sampler';
 export * from './seed/rng';
 export * from './seed/config';
 export * from './seed/generator';

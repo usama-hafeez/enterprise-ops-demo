@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "description": "NestJS API binding the shared pipeline to MySQL 8: run endpoints, streamed CSV export, migrations, seed.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
