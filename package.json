@@ -17,11 +17,14 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "bench": "npm run bench -w benchmarks",
     "format": "prettier --write \"packages/*/src/**/*.ts\" \"benchmarks/**/*.ts\"",
-    "format:check": "prettier --check \"packages/*/src/**/*.ts\" \"benchmarks/**/*.ts\""
+    "format:check": "prettier --check \"packages/*/src/**/*.ts\" \"benchmarks/**/*.ts\"",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "eslint": "^10.8.0",
     "prettier": "^3.4.0",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.65.0"
   }
 }

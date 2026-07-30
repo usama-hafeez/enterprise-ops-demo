@@ -37,7 +37,7 @@ export class MysqlExecutor implements DbExecutor {
     try {
       // Drop to the callback-style connection to get a row stream; the
       // promise wrapper has no streaming API.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       const stream = (conn.connection.query(sql, params as any) as any).stream();
       for await (const row of stream) {
         yield row as T;
