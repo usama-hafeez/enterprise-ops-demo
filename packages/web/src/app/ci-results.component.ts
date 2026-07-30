@@ -31,12 +31,13 @@ interface CiResults {
         <p class="provenance">
           benchmarks/run.ts against MySQL {{ r.mysqlVersion }}
           @if (r.gitSha) {
-            in GitHub Actions at commit <code>{{ r.gitSha.slice(0, 7) }}</code>,
+            in GitHub Actions at commit <code>{{ r.gitSha.slice(0, 7) }}</code
+            >,
           } @else {
             (local run - CI overwrites this on the next push),
           }
-          {{ r.generatedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC
-          - seed {{ r.volumes.seed }}, {{ r.volumes.requisitions | number }} requisitions,
+          {{ r.generatedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC - seed {{ r.volumes.seed }},
+          {{ r.volumes.requisitions | number }} requisitions,
           {{ r.volumes.products * 4 | number }} stock rows,
           {{ r.volumes.invoices | number }} invoices, {{ r.volumes.payments | number }} payments.
         </p>
