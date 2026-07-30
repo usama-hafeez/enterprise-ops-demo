@@ -40,7 +40,16 @@ describe('allocateLine against a real (SQLite) database', () => {
       'INSERT INTO warehouses (code, name, distance_km) VALUES ' +
         "('WH-N', 'North', 12), ('WH-S', 'South', 45), ('WH-E', 'East', 90), ('WH-W', 'West', 160)",
     );
-    await db.run("INSERT INTO products (sku, name) VALUES ('SKU-000001', 'Part 000001')");
+    await db.run(
+      "INSERT INTO manufacturers (code, name, country) VALUES ('MFR-01', 'Manufacturer 01', 'Germany')",
+    );
+    await db.run(
+      'INSERT INTO suppliers (code, name, email, country, lead_time_days) ' +
+        "VALUES ('SUP-01', 'Supplier 01', 'sup-01@acme-parts.test', 'United Kingdom', 2)",
+    );
+    await db.run(
+      "INSERT INTO products (sku, name, manufacturer_id) VALUES ('SKU-000001', 'Laptop Battery 000001', 1)",
+    );
     await db.run(
       "INSERT INTO customers (name, email) VALUES ('Customer 0001', 'customer0001@acme-parts.test')",
     );
@@ -55,7 +64,7 @@ describe('allocateLine against a real (SQLite) database', () => {
 
   const addStock = (warehouseId: number, qty: number, costCents: number, priority = 0) =>
     db.run(
-      'INSERT INTO stock (product_id, warehouse_id, is_priority, unit_cost_cents, qty_on_hand) VALUES (1, ?, ?, ?, ?)',
+      'INSERT INTO stock (product_id, warehouse_id, supplier_id, is_priority, unit_cost_cents, qty_on_hand) VALUES (1, ?, 1, ?, ?, ?)',
       [warehouseId, priority, costCents, qty],
     );
 

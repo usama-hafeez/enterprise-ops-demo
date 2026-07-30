@@ -1,6 +1,13 @@
 import { DbExecutor } from '../db/executor';
 import { Rng } from './rng';
-import { SeedConfig, WAREHOUSES, defaultSeedConfig } from './config';
+import {
+  MANUFACTURERS,
+  PART_TYPES,
+  SUPPLIERS,
+  SeedConfig,
+  WAREHOUSES,
+  defaultSeedConfig,
+} from './config';
 
 // Fixed epoch (2025-07-01T00:00:00Z) so generated timestamps are reproducible.
 const BASE_MS = Date.UTC(2025, 6, 1);
@@ -20,6 +27,8 @@ function ts(ms: number): string {
 }
 
 export interface SeedSummary {
+  manufacturers: number;
+  suppliers: number;
   products: number;
   customers: number;
   stockRows: number;
@@ -52,6 +61,11 @@ export async function seedDatabase(
   cfg: SeedConfig = defaultSeedConfig,
 ): Promise<SeedSummary> {
   const rng = new Rng(cfg.seed);
+  // The manufacturer/supplier links draw from their own PRNG so adding them
+  // never shifts the main stream - the pipeline's inputs, and therefore its
+  // output hash, stay identical to seeds generated before these columns
+  // existed.
+  const linkRng = new Rng(cfg.seed ^ 0x9e3779b9);
 
   await insertMany(
     db,
@@ -60,11 +74,36 @@ export async function seedDatabase(
     WAREHOUSES.map((w) => [w.code, w.name, w.distanceKm]),
   );
 
+  await insertMany(
+    db,
+    'manufacturers',
+    ['code', 'name', 'country'],
+    MANUFACTURERS.map((m) => [m.code, m.name, m.country]),
+  );
+
+  await insertMany(
+    db,
+    'suppliers',
+    ['code', 'name', 'email', 'country', 'lead_time_days'],
+    SUPPLIERS.map((s) => [
+      s.code,
+      s.name,
+      `${s.code.toLowerCase()}@acme-parts.test`,
+      s.country,
+      s.leadTimeDays,
+    ]),
+  );
+
   const products: unknown[][] = [];
   for (let i = 1; i <= cfg.products; i++) {
-    products.push([`SKU-${pad(i, 6)}`, `Part ${pad(i, 6)}`]);
+    const partType = PART_TYPES[linkRng.int(0, PART_TYPES.length - 1)];
+    products.push([
+      `SKU-${pad(i, 6)}`,
+      `${partType} ${pad(i, 6)}`,
+      linkRng.int(1, MANUFACTURERS.length),
+    ]);
   }
-  await insertMany(db, 'products', ['sku', 'name'], products);
+  await insertMany(db, 'products', ['sku', 'name', 'manufacturer_id'], products);
 
   const customers: unknown[][] = [];
   for (let i = 1; i <= cfg.customers; i++) {
@@ -80,6 +119,7 @@ export async function seedDatabase(
       stock.push([
         p,
         w,
+        linkRng.int(1, SUPPLIERS.length),
         rng.chance(0.15) ? 1 : 0,
         rng.int(100, 50_000),
         rng.chance(0.25) ? 0 : rng.int(1, 30),
@@ -89,7 +129,7 @@ export async function seedDatabase(
   await insertMany(
     db,
     'stock',
-    ['product_id', 'warehouse_id', 'is_priority', 'unit_cost_cents', 'qty_on_hand'],
+    ['product_id', 'warehouse_id', 'supplier_id', 'is_priority', 'unit_cost_cents', 'qty_on_hand'],
     stock,
   );
 
@@ -170,6 +210,8 @@ export async function seedDatabase(
   await insertMany(db, 'payments', ['customer_id', 'amount_cents', 'received_at'], payments);
 
   return {
+    manufacturers: MANUFACTURERS.length,
+    suppliers: SUPPLIERS.length,
     products: cfg.products,
     customers: cfg.customers,
     stockRows: stock.length,

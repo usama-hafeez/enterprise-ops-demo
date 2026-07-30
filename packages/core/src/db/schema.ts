@@ -22,10 +22,26 @@ export function tableDdl(dialect: Dialect): string[] {
       name VARCHAR(64) NOT NULL,
       distance_km INT NOT NULL
     )${engine}`,
+    `CREATE TABLE manufacturers (
+      ${pk},
+      code VARCHAR(16) NOT NULL UNIQUE,
+      name VARCHAR(64) NOT NULL,
+      country VARCHAR(32) NOT NULL
+    )${engine}`,
+    `CREATE TABLE suppliers (
+      ${pk},
+      code VARCHAR(16) NOT NULL UNIQUE,
+      name VARCHAR(64) NOT NULL,
+      email VARCHAR(128) NOT NULL,
+      country VARCHAR(32) NOT NULL,
+      lead_time_days INT NOT NULL
+    )${engine}`,
     `CREATE TABLE products (
       ${pk},
       sku VARCHAR(32) NOT NULL UNIQUE,
-      name VARCHAR(128) NOT NULL
+      name VARCHAR(128) NOT NULL,
+      manufacturer_id INT UNSIGNED NOT NULL,
+      FOREIGN KEY (manufacturer_id) REFERENCES manufacturers (id)
     )${engine}`,
     `CREATE TABLE customers (
       ${pk},
@@ -36,11 +52,13 @@ export function tableDdl(dialect: Dialect): string[] {
       ${pk},
       product_id INT UNSIGNED NOT NULL,
       warehouse_id INT UNSIGNED NOT NULL,
+      supplier_id INT UNSIGNED NOT NULL,
       is_priority TINYINT NOT NULL DEFAULT 0,
       unit_cost_cents INT NOT NULL,
       qty_on_hand INT NOT NULL,
       FOREIGN KEY (product_id) REFERENCES products (id),
-      FOREIGN KEY (warehouse_id) REFERENCES warehouses (id)
+      FOREIGN KEY (warehouse_id) REFERENCES warehouses (id),
+      FOREIGN KEY (supplier_id) REFERENCES suppliers (id)
     )${engine}`,
     `CREATE TABLE requisitions (
       ${pk},
@@ -137,6 +155,8 @@ export const TABLES_DROP_ORDER = [
   'stock',
   'customers',
   'products',
+  'suppliers',
+  'manufacturers',
   'warehouses',
 ];
 
