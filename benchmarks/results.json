@@ -1,5 +1,6 @@
 {
-  "generatedAt": "2026-07-29T11:08:00.831Z",
+  "generatedAt": "2026-07-30T06:36:56.451Z",
+  "gitSha": "6c1e0d18016fe797b4ad4b9b331fa6659a3482cd",
   "mysqlVersion": "8.0.46",
   "volumes": {
     "seed": 42,
@@ -13,8 +14,8 @@
   },
   "naive": {
     "queries": 40128,
-    "wallMs": 66064,
-    "peakRssBytes": 128049152,
+    "wallMs": 28320,
+    "peakRssBytes": 131829760,
     "outputHash": "000035238af06cfc3b461a4f",
     "totals": {
       "requisitions": 1000,
@@ -29,8 +30,8 @@
   },
   "optimized": {
     "queries": 283,
-    "wallMs": 2947,
-    "peakRssBytes": 122527744,
+    "wallMs": 2513,
+    "peakRssBytes": 132153344,
     "outputHash": "000035238af06cfc3b461a4f",
     "totals": {
       "requisitions": 1000,
@@ -45,7 +46,7 @@
   },
   "change": {
     "queriesPct": -99.3,
-    "wallPct": -95.5,
-    "peakRssPct": -4.3
+    "wallPct": -91.1,
+    "peakRssPct": 0.2
   }
 }
