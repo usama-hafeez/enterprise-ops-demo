@@ -148,6 +148,8 @@ async function main(): Promise<void> {
 
   const results = {
     generatedAt: new Date().toISOString(),
+    // Present when run by GitHub Actions; null for local runs.
+    gitSha: process.env['GITHUB_SHA'] ?? null,
     mysqlVersion: naive.mysqlVersion,
     volumes,
     naive: pick(naive),
