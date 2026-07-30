@@ -26,14 +26,16 @@ interface CiResults {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="ci">
-      <h2>The headline numbers: MySQL 8, measured in CI</h2>
+      <h2>The headline numbers: MySQL 8, measured by benchmarks/run.ts</h2>
       @if (results(); as r) {
         <p class="provenance">
-          benchmarks/run.ts against MySQL {{ r.mysqlVersion }} in GitHub Actions,
-          {{ r.generatedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC
+          benchmarks/run.ts against MySQL {{ r.mysqlVersion }}
           @if (r.gitSha) {
-            at commit <code>{{ r.gitSha.slice(0, 7) }}</code>
+            in GitHub Actions at commit <code>{{ r.gitSha.slice(0, 7) }}</code>,
+          } @else {
+            (local run - CI overwrites this on the next push),
           }
+          {{ r.generatedAt | date: 'yyyy-MM-dd HH:mm' : 'UTC' }} UTC
           - seed {{ r.volumes.seed }}, {{ r.volumes.requisitions | number }} requisitions,
           {{ r.volumes.products * 4 | number }} stock rows,
           {{ r.volumes.invoices | number }} invoices, {{ r.volumes.payments | number }} payments.
