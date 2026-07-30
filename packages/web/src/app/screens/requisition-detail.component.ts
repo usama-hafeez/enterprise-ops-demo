@@ -51,15 +51,19 @@ interface AllocationRow {
         <table class="grid">
           <thead>
             <tr>
-              <th>Part</th><th>SKU</th>
-              <th class="num">Requested</th><th class="num">Allocated</th>
+              <th>Part</th>
+              <th>SKU</th>
+              <th class="num">Requested</th>
+              <th class="num">Allocated</th>
               <th class="num">Backordered</th>
             </tr>
           </thead>
           <tbody>
             @for (line of lines(); track line.id) {
               <tr>
-                <td><a [routerLink]="['/products', line.product_id]">{{ line.product }}</a></td>
+                <td>
+                  <a [routerLink]="['/products', line.product_id]">{{ line.product }}</a>
+                </td>
                 <td>{{ line.sku }}</td>
                 <td class="num">{{ line.qty_requested }}</td>
                 <td class="num">{{ line.qty_allocated }}</td>
@@ -76,8 +80,10 @@ interface AllocationRow {
           <table class="grid">
             <thead>
               <tr>
-                <th>Part</th><th>From warehouse</th>
-                <th class="num">Qty</th><th class="num">Unit cost</th>
+                <th>Part</th>
+                <th>From warehouse</th>
+                <th class="num">Qty</th>
+                <th class="num">Unit cost</th>
               </tr>
             </thead>
             <tbody>

@@ -38,7 +38,9 @@ interface WarehouseRow {
       <tbody>
         @for (w of rows(); track w.id) {
           <tr>
-            <td><a [routerLink]="['/warehouses', w.id]">{{ w.code }}</a></td>
+            <td>
+              <a [routerLink]="['/warehouses', w.id]">{{ w.code }}</a>
+            </td>
             <td>{{ w.name }}</td>
             <td class="num">{{ w.distance_km }} km</td>
             <td class="num">{{ w.lots.toLocaleString() }}</td>

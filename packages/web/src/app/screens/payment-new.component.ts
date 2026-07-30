@@ -30,16 +30,23 @@ interface CustomerOption {
         <h2>Payment #{{ r.paymentId }} settled</h2>
         <table class="grid">
           <thead>
-            <tr><th>Invoice</th><th class="num">Applied</th></tr>
+            <tr>
+              <th>Invoice</th>
+              <th class="num">Applied</th>
+            </tr>
           </thead>
           <tbody>
             @for (app of r.applications; track app.invoiceId) {
               <tr>
-                <td><a [routerLink]="['/invoices', app.invoiceId]">#{{ app.invoiceId }}</a></td>
+                <td>
+                  <a [routerLink]="['/invoices', app.invoiceId]">#{{ app.invoiceId }}</a>
+                </td>
                 <td class="num">{{ app.amountCents | money }}</td>
               </tr>
             } @empty {
-              <tr><td colspan="2" class="empty">No open invoices - full amount became credit.</td></tr>
+              <tr>
+                <td colspan="2" class="empty">No open invoices - full amount became credit.</td>
+              </tr>
             }
           </tbody>
         </table>
@@ -57,9 +64,7 @@ interface CustomerOption {
           Customer
           <select name="customer" [(ngModel)]="customerId">
             @for (c of customers(); track c.id) {
-              <option [value]="c.id">
-                {{ c.name }} ({{ c.outstanding | money }} outstanding)
-              </option>
+              <option [value]="c.id">{{ c.name }} ({{ c.outstanding | money }} outstanding)</option>
             }
           </select>
         </label>

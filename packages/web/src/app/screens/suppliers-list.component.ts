@@ -39,7 +39,9 @@ interface SupplierRow {
       <tbody>
         @for (s of rows(); track s.id) {
           <tr>
-            <td><a [routerLink]="['/suppliers', s.id]">{{ s.code }}</a></td>
+            <td>
+              <a [routerLink]="['/suppliers', s.id]">{{ s.code }}</a>
+            </td>
             <td>{{ s.name }}</td>
             <td>{{ s.country }}</td>
             <td class="num">{{ s.lead_time_days }} days</td>

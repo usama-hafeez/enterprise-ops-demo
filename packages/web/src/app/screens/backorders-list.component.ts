@@ -30,21 +30,30 @@ const PAGE = 25;
     <table class="grid">
       <thead>
         <tr>
-          <th>Requisition</th><th>Customer</th><th>Part</th>
-          <th class="num">Qty short</th><th>Status</th>
+          <th>Requisition</th>
+          <th>Customer</th>
+          <th>Part</th>
+          <th class="num">Qty short</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         @for (b of rows(); track b.id) {
           <tr>
-            <td><a [routerLink]="['/requisitions', b.requisition_id]">{{ b.ref }}</a></td>
+            <td>
+              <a [routerLink]="['/requisitions', b.requisition_id]">{{ b.ref }}</a>
+            </td>
             <td>{{ b.customer }}</td>
-            <td><a [routerLink]="['/products', b.product_id]">{{ b.product }}</a></td>
+            <td>
+              <a [routerLink]="['/products', b.product_id]">{{ b.product }}</a>
+            </td>
             <td class="num">{{ b.qty }}</td>
             <td><app-status [value]="b.status" /></td>
           </tr>
         } @empty {
-          <tr><td colspan="5" class="empty">No open backorders.</td></tr>
+          <tr>
+            <td colspan="5" class="empty">No open backorders.</td>
+          </tr>
         }
       </tbody>
     </table>

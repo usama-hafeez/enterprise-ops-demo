@@ -46,21 +46,30 @@ const STATUSES = ['all', 'pending', 'invoiced', 'backordered'] as const;
     <table class="grid">
       <thead>
         <tr>
-          <th>Ref</th><th>Customer</th><th>Created</th>
-          <th class="num">Lines</th><th>Status</th>
+          <th>Ref</th>
+          <th>Customer</th>
+          <th>Created</th>
+          <th class="num">Lines</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         @for (r of rows(); track r.id) {
           <tr>
-            <td><a [routerLink]="['/requisitions', r.id]">{{ r.ref }}</a></td>
-            <td><a [routerLink]="['/customers', r.customer_id]">{{ r.customer }}</a></td>
+            <td>
+              <a [routerLink]="['/requisitions', r.id]">{{ r.ref }}</a>
+            </td>
+            <td>
+              <a [routerLink]="['/customers', r.customer_id]">{{ r.customer }}</a>
+            </td>
             <td>{{ r.created_at.slice(0, 10) }}</td>
             <td class="num">{{ r.lines }}</td>
             <td><app-status [value]="r.status" /></td>
           </tr>
         } @empty {
-          <tr><td colspan="5" class="empty">No requisitions match.</td></tr>
+          <tr>
+            <td colspan="5" class="empty">No requisitions match.</td>
+          </tr>
         }
       </tbody>
     </table>

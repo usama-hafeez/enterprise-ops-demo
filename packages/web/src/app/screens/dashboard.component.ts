@@ -76,7 +76,9 @@ interface TopInvoice {
             <tbody>
               @for (r of recent(); track r.id) {
                 <tr>
-                  <td><a [routerLink]="['/requisitions', r.id]">{{ r.ref }}</a></td>
+                  <td>
+                    <a [routerLink]="['/requisitions', r.id]">{{ r.ref }}</a>
+                  </td>
                   <td>{{ r.customer }}</td>
                   <td class="num">{{ r.lines }}</td>
                   <td><app-status [value]="r.status" /></td>
@@ -101,7 +103,9 @@ interface TopInvoice {
             <tbody>
               @for (inv of topInvoices(); track inv.id) {
                 <tr>
-                  <td><a [routerLink]="['/invoices', inv.id]">{{ inv.number }}</a></td>
+                  <td>
+                    <a [routerLink]="['/invoices', inv.id]">{{ inv.number }}</a>
+                  </td>
                   <td>{{ inv.customer }}</td>
                   <td class="num">{{ inv.outstanding | money }}</td>
                   <td><app-status [value]="inv.status" /></td>
@@ -139,7 +143,9 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const [req, back, ar, stock, customers, products] = await Promise.all([
-      this.data.one<{ n: number }>("SELECT COUNT(*) AS n FROM requisitions WHERE status = 'pending'"),
+      this.data.one<{ n: number }>(
+        "SELECT COUNT(*) AS n FROM requisitions WHERE status = 'pending'",
+      ),
       this.data.one<{ n: number; units: number }>(
         "SELECT COUNT(*) AS n, COALESCE(SUM(qty), 0) AS units FROM backorders WHERE status = 'open'",
       ),

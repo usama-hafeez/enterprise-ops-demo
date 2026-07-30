@@ -59,7 +59,8 @@ interface DraftLine {
           @for (hit of hits(); track hit.id) {
             <li>
               <button type="button" (click)="addLine(hit)">
-                {{ hit.name }} <span class="muted">{{ hit.sku }} &middot; {{ hit.onHand }} on hand</span>
+                {{ hit.name }}
+                <span class="muted">{{ hit.sku }} &middot; {{ hit.onHand }} on hand</span>
               </button>
             </li>
           }
@@ -69,7 +70,13 @@ interface DraftLine {
       @if (draft().length > 0) {
         <table class="grid">
           <thead>
-            <tr><th>Part</th><th>SKU</th><th class="num">On hand</th><th class="num">Qty</th><th></th></tr>
+            <tr>
+              <th>Part</th>
+              <th>SKU</th>
+              <th class="num">On hand</th>
+              <th class="num">Qty</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             @for (line of draft(); track line.product.id; let i = $index) {

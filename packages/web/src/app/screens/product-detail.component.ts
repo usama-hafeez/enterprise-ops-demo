@@ -48,21 +48,28 @@ interface StockLot {
         <table class="grid">
           <thead>
             <tr>
-              <th>Warehouse</th><th>Supplier</th>
-              <th class="num">On hand</th><th class="num">Unit cost</th><th>Priority</th>
+              <th>Warehouse</th>
+              <th>Supplier</th>
+              <th class="num">On hand</th>
+              <th class="num">Unit cost</th>
+              <th>Priority</th>
             </tr>
           </thead>
           <tbody>
             @for (lot of lots(); track lot.id) {
               <tr>
                 <td>{{ lot.warehouse }}</td>
-                <td><a [routerLink]="['/suppliers', lot.supplier_id]">{{ lot.supplier }}</a></td>
+                <td>
+                  <a [routerLink]="['/suppliers', lot.supplier_id]">{{ lot.supplier }}</a>
+                </td>
                 <td class="num">{{ lot.qty_on_hand }}</td>
                 <td class="num">{{ lot.unit_cost_cents | money }}</td>
                 <td>{{ lot.is_priority ? 'priority' : '-' }}</td>
               </tr>
             } @empty {
-              <tr><td colspan="5" class="empty">No stock lots for this part.</td></tr>
+              <tr>
+                <td colspan="5" class="empty">No stock lots for this part.</td>
+              </tr>
             }
           </tbody>
         </table>

@@ -52,18 +52,27 @@ interface InvoiceRow {
           <h2>Requisitions</h2>
           <table class="grid">
             <thead>
-              <tr><th>Ref</th><th>Created</th><th class="num">Lines</th><th>Status</th></tr>
+              <tr>
+                <th>Ref</th>
+                <th>Created</th>
+                <th class="num">Lines</th>
+                <th>Status</th>
+              </tr>
             </thead>
             <tbody>
               @for (r of requisitions(); track r.id) {
                 <tr>
-                  <td><a [routerLink]="['/requisitions', r.id]">{{ r.ref }}</a></td>
+                  <td>
+                    <a [routerLink]="['/requisitions', r.id]">{{ r.ref }}</a>
+                  </td>
                   <td>{{ r.created_at.slice(0, 10) }}</td>
                   <td class="num">{{ r.lines }}</td>
                   <td><app-status [value]="r.status" /></td>
                 </tr>
               } @empty {
-                <tr><td colspan="4" class="empty">No requisitions yet.</td></tr>
+                <tr>
+                  <td colspan="4" class="empty">No requisitions yet.</td>
+                </tr>
               }
             </tbody>
           </table>
@@ -74,21 +83,28 @@ interface InvoiceRow {
           <table class="grid">
             <thead>
               <tr>
-                <th>Invoice</th><th>Issued</th><th class="num">Total</th>
-                <th class="num">Paid</th><th>Status</th>
+                <th>Invoice</th>
+                <th>Issued</th>
+                <th class="num">Total</th>
+                <th class="num">Paid</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               @for (inv of invoices(); track inv.id) {
                 <tr>
-                  <td><a [routerLink]="['/invoices', inv.id]">{{ inv.number }}</a></td>
+                  <td>
+                    <a [routerLink]="['/invoices', inv.id]">{{ inv.number }}</a>
+                  </td>
                   <td>{{ inv.issued_at.slice(0, 10) }}</td>
                   <td class="num">{{ inv.total_cents | money }}</td>
                   <td class="num">{{ inv.amount_paid_cents | money }}</td>
                   <td><app-status [value]="inv.status" /></td>
                 </tr>
               } @empty {
-                <tr><td colspan="5" class="empty">No invoices yet.</td></tr>
+                <tr>
+                  <td colspan="5" class="empty">No invoices yet.</td>
+                </tr>
               }
             </tbody>
           </table>

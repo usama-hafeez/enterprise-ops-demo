@@ -35,7 +35,9 @@ interface ManufacturerRow {
       <tbody>
         @for (m of rows(); track m.id) {
           <tr>
-            <td><a [routerLink]="['/manufacturers', m.id]">{{ m.code }}</a></td>
+            <td>
+              <a [routerLink]="['/manufacturers', m.id]">{{ m.code }}</a>
+            </td>
             <td>{{ m.name }}</td>
             <td>{{ m.country }}</td>
             <td class="num">{{ m.products.toLocaleString() }}</td>

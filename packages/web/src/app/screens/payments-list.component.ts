@@ -31,8 +31,11 @@ const PAGE = 25;
     <table class="grid">
       <thead>
         <tr>
-          <th>#</th><th>Customer</th><th>Received</th>
-          <th class="num">Amount</th><th class="num">Applied</th>
+          <th>#</th>
+          <th>Customer</th>
+          <th>Received</th>
+          <th class="num">Amount</th>
+          <th class="num">Applied</th>
           <th class="num">Invoices touched</th>
         </tr>
       </thead>
@@ -40,14 +43,18 @@ const PAGE = 25;
         @for (p of rows(); track p.id) {
           <tr>
             <td>{{ p.id }}</td>
-            <td><a [routerLink]="['/customers', p.customer_id]">{{ p.customer }}</a></td>
+            <td>
+              <a [routerLink]="['/customers', p.customer_id]">{{ p.customer }}</a>
+            </td>
             <td>{{ p.received_at.slice(0, 10) }}</td>
             <td class="num">{{ p.amount_cents | money }}</td>
             <td class="num">{{ p.applied | money }}</td>
             <td class="num">{{ p.invoicesSettled }}</td>
           </tr>
         } @empty {
-          <tr><td colspan="6" class="empty">No payments.</td></tr>
+          <tr>
+            <td colspan="6" class="empty">No payments.</td>
+          </tr>
         }
       </tbody>
     </table>

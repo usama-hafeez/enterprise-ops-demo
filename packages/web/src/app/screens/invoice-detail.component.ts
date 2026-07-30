@@ -53,7 +53,11 @@ interface ApplicationRow {
         <h2>Payment applications (FIFO)</h2>
         <table class="grid">
           <thead>
-            <tr><th>Payment</th><th>Received</th><th class="num">Applied</th></tr>
+            <tr>
+              <th>Payment</th>
+              <th>Received</th>
+              <th class="num">Applied</th>
+            </tr>
           </thead>
           <tbody>
             @for (app of applications(); track app.id) {
@@ -63,7 +67,9 @@ interface ApplicationRow {
                 <td class="num">{{ app.amount_cents | money }}</td>
               </tr>
             } @empty {
-              <tr><td colspan="3" class="empty">No payments applied yet.</td></tr>
+              <tr>
+                <td colspan="3" class="empty">No payments applied yet.</td>
+              </tr>
             }
           </tbody>
         </table>

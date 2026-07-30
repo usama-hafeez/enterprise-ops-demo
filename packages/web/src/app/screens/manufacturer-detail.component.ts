@@ -24,7 +24,9 @@ interface ProductRow {
   template: `
     @if (manufacturer(); as m) {
       <header class="page-header">
-        <h1>{{ m.name }} <span class="muted">({{ m.code }})</span></h1>
+        <h1>
+          {{ m.name }} <span class="muted">({{ m.code }})</span>
+        </h1>
         <p>{{ m.country }}</p>
       </header>
 
@@ -32,13 +34,19 @@ interface ProductRow {
         <h2>Catalogue parts ({{ total().toLocaleString() }})</h2>
         <table class="grid">
           <thead>
-            <tr><th>SKU</th><th>Part</th><th class="num">Units on hand</th></tr>
+            <tr>
+              <th>SKU</th>
+              <th>Part</th>
+              <th class="num">Units on hand</th>
+            </tr>
           </thead>
           <tbody>
             @for (p of products(); track p.id) {
               <tr>
                 <td>{{ p.sku }}</td>
-                <td><a [routerLink]="['/products', p.id]">{{ p.name }}</a></td>
+                <td>
+                  <a [routerLink]="['/products', p.id]">{{ p.name }}</a>
+                </td>
                 <td class="num">{{ p.onHand }}</td>
               </tr>
             }

@@ -19,9 +19,9 @@ import { CiResultsComponent } from '../ci-results.component';
     <header class="page-header">
       <h1>Performance</h1>
       <p>
-        The nightly batch behind these screens - allocation, backorders, invoicing, FIFO
-        settlement - implemented twice: naive (per-row lookups, full loads) and optimized (batched
-        reads, keyset pagination, composite indexes). Same input, provably identical output.
+        The nightly batch behind these screens - allocation, backorders, invoicing, FIFO settlement
+        - implemented twice: naive (per-row lookups, full loads) and optimized (batched reads,
+        keyset pagination, composite indexes). Same input, provably identical output.
       </p>
     </header>
 

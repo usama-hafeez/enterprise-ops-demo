@@ -45,14 +45,21 @@ const PAGE = 25;
     <table class="grid">
       <thead>
         <tr>
-          <th>Part</th><th>SKU</th><th>Warehouse</th><th>Supplier</th>
-          <th class="num">On hand</th><th class="num">Unit cost</th><th>Priority</th>
+          <th>Part</th>
+          <th>SKU</th>
+          <th>Warehouse</th>
+          <th>Supplier</th>
+          <th class="num">On hand</th>
+          <th class="num">Unit cost</th>
+          <th>Priority</th>
         </tr>
       </thead>
       <tbody>
         @for (s of rows(); track s.id) {
           <tr>
-            <td><a [routerLink]="['/products', s.product_id]">{{ s.product }}</a></td>
+            <td>
+              <a [routerLink]="['/products', s.product_id]">{{ s.product }}</a>
+            </td>
             <td>{{ s.sku }}</td>
             <td>{{ s.warehouse }}</td>
             <td>{{ s.supplier }}</td>
@@ -61,7 +68,9 @@ const PAGE = 25;
             <td>{{ s.is_priority ? 'priority' : '-' }}</td>
           </tr>
         } @empty {
-          <tr><td colspan="7" class="empty">No stock lots match.</td></tr>
+          <tr>
+            <td colspan="7" class="empty">No stock lots match.</td>
+          </tr>
         }
       </tbody>
     </table>

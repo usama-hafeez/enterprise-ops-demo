@@ -47,13 +47,17 @@ const PAGE = 25;
       <tbody>
         @for (c of rows(); track c.id) {
           <tr>
-            <td><a [routerLink]="['/customers', c.id]">{{ c.name }}</a></td>
+            <td>
+              <a [routerLink]="['/customers', c.id]">{{ c.name }}</a>
+            </td>
             <td>{{ c.email }}</td>
             <td class="num">{{ c.requisitions }}</td>
             <td class="num">{{ c.outstanding | money }}</td>
           </tr>
         } @empty {
-          <tr><td colspan="4" class="empty">No customers match.</td></tr>
+          <tr>
+            <td colspan="4" class="empty">No customers match.</td>
+          </tr>
         }
       </tbody>
     </table>

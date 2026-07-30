@@ -30,7 +30,9 @@ interface LotRow {
   template: `
     @if (warehouse(); as w) {
       <header class="page-header">
-        <h1>{{ w.name }} <span class="muted">({{ w.code }})</span></h1>
+        <h1>
+          {{ w.name }} <span class="muted">({{ w.code }})</span>
+        </h1>
         <p>{{ w.distance_km }} km from the dispatch hub.</p>
       </header>
 
@@ -45,14 +47,20 @@ interface LotRow {
         <table class="grid">
           <thead>
             <tr>
-              <th>Part</th><th>SKU</th><th>Supplier</th>
-              <th class="num">On hand</th><th class="num">Unit cost</th><th>Priority</th>
+              <th>Part</th>
+              <th>SKU</th>
+              <th>Supplier</th>
+              <th class="num">On hand</th>
+              <th class="num">Unit cost</th>
+              <th>Priority</th>
             </tr>
           </thead>
           <tbody>
             @for (lot of lots(); track lot.id) {
               <tr>
-                <td><a [routerLink]="['/products', lot.product_id]">{{ lot.product }}</a></td>
+                <td>
+                  <a [routerLink]="['/products', lot.product_id]">{{ lot.product }}</a>
+                </td>
                 <td>{{ lot.sku }}</td>
                 <td>{{ lot.supplier }}</td>
                 <td class="num">{{ lot.qty_on_hand }}</td>

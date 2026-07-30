@@ -46,12 +46,16 @@ const PAGE = 25;
         @for (p of rows(); track p.id) {
           <tr>
             <td>{{ p.sku }}</td>
-            <td><a [routerLink]="['/products', p.id]">{{ p.name }}</a></td>
+            <td>
+              <a [routerLink]="['/products', p.id]">{{ p.name }}</a>
+            </td>
             <td>{{ p.manufacturer }}</td>
             <td class="num">{{ p.onHand }}</td>
           </tr>
         } @empty {
-          <tr><td colspan="4" class="empty">No parts match.</td></tr>
+          <tr>
+            <td colspan="4" class="empty">No parts match.</td>
+          </tr>
         }
       </tbody>
     </table>

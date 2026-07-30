@@ -32,7 +32,9 @@ interface LotRow {
   template: `
     @if (supplier(); as s) {
       <header class="page-header">
-        <h1>{{ s.name }} <span class="muted">({{ s.code }})</span></h1>
+        <h1>
+          {{ s.name }} <span class="muted">({{ s.code }})</span>
+        </h1>
         <p>{{ s.email }} &middot; {{ s.country }} &middot; {{ s.lead_time_days }}-day lead time</p>
       </header>
 
@@ -46,14 +48,20 @@ interface LotRow {
         <table class="grid">
           <thead>
             <tr>
-              <th>Part</th><th>SKU</th><th>Warehouse</th>
-              <th class="num">On hand</th><th class="num">Unit cost</th><th>Priority</th>
+              <th>Part</th>
+              <th>SKU</th>
+              <th>Warehouse</th>
+              <th class="num">On hand</th>
+              <th class="num">Unit cost</th>
+              <th>Priority</th>
             </tr>
           </thead>
           <tbody>
             @for (lot of lots(); track lot.id) {
               <tr>
-                <td><a [routerLink]="['/products', lot.product_id]">{{ lot.product }}</a></td>
+                <td>
+                  <a [routerLink]="['/products', lot.product_id]">{{ lot.product }}</a>
+                </td>
                 <td>{{ lot.sku }}</td>
                 <td>{{ lot.warehouse }}</td>
                 <td class="num">{{ lot.qty_on_hand }}</td>
@@ -61,7 +69,9 @@ interface LotRow {
                 <td>{{ lot.is_priority ? 'priority' : '-' }}</td>
               </tr>
             } @empty {
-              <tr><td colspan="6" class="empty">No stock lots.</td></tr>
+              <tr>
+                <td colspan="6" class="empty">No stock lots.</td>
+              </tr>
             }
           </tbody>
         </table>
@@ -88,9 +98,7 @@ export class SupplierDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.supplier.set(
-      await this.data.one<Supplier>('SELECT * FROM suppliers WHERE id = ?', [id]),
-    );
+    this.supplier.set(await this.data.one<Supplier>('SELECT * FROM suppliers WHERE id = ?', [id]));
     const totals = await this.data.one<{ units: number; value: number }>(
       `SELECT COALESCE(SUM(qty_on_hand), 0) AS units,
               COALESCE(SUM(qty_on_hand * unit_cost_cents), 0) AS value

@@ -47,16 +47,24 @@ const STATUSES = ['all', 'open', 'partial', 'paid'] as const;
     <table class="grid">
       <thead>
         <tr>
-          <th>Invoice</th><th>Customer</th><th>Issued</th>
-          <th class="num">Total</th><th class="num">Paid</th>
-          <th class="num">Outstanding</th><th>Status</th>
+          <th>Invoice</th>
+          <th>Customer</th>
+          <th>Issued</th>
+          <th class="num">Total</th>
+          <th class="num">Paid</th>
+          <th class="num">Outstanding</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         @for (inv of rows(); track inv.id) {
           <tr>
-            <td><a [routerLink]="['/invoices', inv.id]">{{ inv.number }}</a></td>
-            <td><a [routerLink]="['/customers', inv.customer_id]">{{ inv.customer }}</a></td>
+            <td>
+              <a [routerLink]="['/invoices', inv.id]">{{ inv.number }}</a>
+            </td>
+            <td>
+              <a [routerLink]="['/customers', inv.customer_id]">{{ inv.customer }}</a>
+            </td>
             <td>{{ inv.issued_at.slice(0, 10) }}</td>
             <td class="num">{{ inv.total_cents | money }}</td>
             <td class="num">{{ inv.amount_paid_cents | money }}</td>
@@ -64,7 +72,9 @@ const STATUSES = ['all', 'open', 'partial', 'paid'] as const;
             <td><app-status [value]="inv.status" /></td>
           </tr>
         } @empty {
-          <tr><td colspan="7" class="empty">No invoices match.</td></tr>
+          <tr>
+            <td colspan="7" class="empty">No invoices match.</td>
+          </tr>
         }
       </tbody>
     </table>
