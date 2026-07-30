@@ -16,5 +16,35 @@ services:
       timeout: 5s
       retries: 30
 
+  server:
+    build:
+      context: .
+      dockerfile: packages/server/Dockerfile
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: "3306"
+      MYSQL_USER: ${MYSQL_USER:-demo}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-demo_local_only}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-enterprise_ops}
+      SERVER_PORT: "3000"
+      SEED: ${SEED:-42}
+      SEED_PRODUCTS: ${SEED_PRODUCTS:-12500}
+      SEED_CUSTOMERS: ${SEED_CUSTOMERS:-200}
+      SEED_REQUISITIONS: ${SEED_REQUISITIONS:-1000}
+      SEED_INVOICES: ${SEED_INVOICES:-20000}
+      SEED_PAYMENTS: ${SEED_PAYMENTS:-5000}
+    ports:
+      - "127.0.0.1:${SERVER_PORT:-3000}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: packages/web/Dockerfile
+    ports:
+      - "127.0.0.1:${WEB_PORT:-4200}:80"
+
 volumes:
   db-data:
