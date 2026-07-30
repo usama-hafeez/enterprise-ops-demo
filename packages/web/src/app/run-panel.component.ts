@@ -28,16 +28,20 @@ import { DemoService } from './demo.service';
         }
       </button>
 
-      <dl class="metrics">
-        <div>
-          <dt>queries</dt>
-          <dd class="num">{{ displayQueries() | number }}</dd>
-        </div>
-        <div>
-          <dt>wall clock</dt>
-          <dd class="num">{{ displaySeconds() }}</dd>
-        </div>
-      </dl>
+      @if (state().status === 'idle') {
+        <p class="waiting">Waiting to run.</p>
+      } @else {
+        <dl class="metrics">
+          <div>
+            <dt>queries</dt>
+            <dd class="num">{{ displayQueries() | number }}</dd>
+          </div>
+          <div>
+            <dt>wall clock</dt>
+            <dd class="num">{{ displaySeconds() }}</dd>
+          </div>
+        </dl>
+      }
 
       @if (state().status === 'done' && state().result; as result) {
         <table class="totals">
