@@ -10,8 +10,11 @@ coverage/
 *.tsbuildinfo
 .angular/
 
-# generated artifacts (rebuilt from the seed script)
-packages/web/src/assets/seed.sqlite
+# generated artifacts (rebuilt by packages/web/tools/build-seed-db.js)
+packages/web/public/seed.sqlite
+packages/web/public/browser-volumes.json
+packages/web/public/results.json
+packages/web/public/sql-wasm-browser.wasm
 
 # editor / OS noise
 .vscode/

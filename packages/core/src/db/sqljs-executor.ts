@@ -16,8 +16,11 @@ export class SqlJsExecutor implements DbExecutor {
 
   constructor(readonly db: Database) {}
 
-  static async create(data?: Uint8Array): Promise<SqlJsExecutor> {
-    const SQL = await initSqlJs();
+  static async create(
+    data?: Uint8Array,
+    config?: Parameters<typeof initSqlJs>[0],
+  ): Promise<SqlJsExecutor> {
+    const SQL = await initSqlJs(config);
     const db = data ? new SQL.Database(data) : new SQL.Database();
     db.run('PRAGMA foreign_keys = ON');
     return new SqlJsExecutor(db);
