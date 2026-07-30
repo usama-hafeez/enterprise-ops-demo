@@ -7,8 +7,8 @@
 
 The same business pipeline implemented twice - a naive version and an
 optimized one - with instrumentation that proves both produce identical
-output, then measures the difference: **99.3% fewer queries, 95.5% less
-wall-clock time** at this repo's seed volume.
+output, then measures the difference: **99.3% fewer queries, 91% less
+wall-clock time** in the latest CI run.
 
 This repo backs the case study at
 [usamahafeez.dev/case-studies/enterprise-business-system](https://usamahafeez.dev/case-studies/enterprise-business-system).
@@ -36,8 +36,8 @@ credits.
 
 The naive implementation is how systems like this actually get written: a
 query per row inside nested loops, full-table loads into memory, no
-composite indexes. It is correct. It is also 22x slower here, and the gap
-widens with data volume.
+composite indexes. It is correct. It is also an order of magnitude slower -
+11x in the latest CI run - and the gap widens with data volume.
 
 ## What made it hard
 
@@ -80,25 +80,29 @@ response - the full dataset is never assembled in memory.
 
 ## Measured result
 
-From [`benchmarks/results.json`](benchmarks/results.json) - MySQL 8.0.46,
-seed volume: 12,500 products, 1,000 requisitions, 20,000 invoices, 5,000
-payments (deterministic, seed 42):
+From [`benchmarks/results.json`](benchmarks/results.json) - MySQL 8.0.46
+in GitHub Actions, seed volume: 12,500 products, 1,000 requisitions,
+20,000 invoices, 5,000 payments (deterministic, seed 42):
 
 | Metric | Naive | Optimized | Change |
 |---|---:|---:|---:|
 | Queries | 40,128 | 283 | -99.3% |
-| Wall-clock | 66.1 s | 2.9 s | -95.5% |
-| Peak RSS | 122.1 MB | 116.9 MB | -4.3% |
+| Wall-clock | 28.3 s | 2.5 s | -91.1% |
+| Peak RSS | 125.7 MB | 126.0 MB | +0.2% |
 
 Both variants produced output hash `000035238af06cfc3b461a4f` - identical
 business outcome: 4,135 allocations, 145 backorders, 999 invoices, 8,324
 payment applications.
 
-Two honest caveats. The peak-RSS difference is small at this volume -
-Node's baseline dwarfs the working set; the queries and wall-clock columns
-are where the design difference shows. And these are this repo's numbers
-on the benchmark machine at this seed volume - they are not the production
-system's figures, and this repo deliberately does not quote those.
+Some honest caveats. The query counts are deterministic; wall-clock
+depends on the hardware (the same benchmark on my dev machine took 66.1 s
+naive / 2.9 s optimized - a wider gap, because per-query overhead is
+higher there and the naive variant pays it 40,128 times). Peak RSS is a
+wash at this volume - Node's baseline dwarfs the working set, so the
+queries and wall-clock columns are where the design difference shows. And
+these are this repo's numbers at this seed volume - they are not the
+production system's figures, and this repo deliberately does not quote
+those.
 
 ## How to run
 
