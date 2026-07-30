@@ -1,0 +1,54 @@
+name: pages
+
+# Builds the Angular demo (with the freshly committed benchmark results
+# baked in) and deploys it to GitHub Pages. Runs after the benchmark
+# workflow so results.json is current.
+
+on:
+  workflow_run:
+    workflows: [benchmark]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # workflow_run checks out the triggering commit by default; the
+          # benchmark job may have pushed results.json after it, so take
+          # the branch tip instead.
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build -w @enterprise-ops/core
+      - run: npm run bake -w @enterprise-ops/web
+      - run: npx -w @enterprise-ops/web ng build --base-href "/enterprise-ops-demo/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/web/dist/enterprise-ops-web/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

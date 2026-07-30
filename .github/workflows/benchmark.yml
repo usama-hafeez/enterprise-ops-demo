@@ -1,0 +1,62 @@
+name: benchmark
+
+# The authoritative numbers. Runs both pipeline variants against a real
+# MySQL 8 service container and commits benchmarks/results.json back to
+# main - the README and the hosted demo quote that file, nothing else.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "benchmarks/results.json"
+  workflow_dispatch:
+
+concurrency:
+  group: benchmark-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_local_only
+          MYSQL_DATABASE: enterprise_ops
+          MYSQL_USER: demo
+          MYSQL_PASSWORD: demo_local_only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -u root -proot_local_only"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 30
+    env:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: "3306"
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: demo_local_only
+      MYSQL_DATABASE: enterprise_ops
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build -w @enterprise-ops/core -w @enterprise-ops/server
+      - run: npm run bench
+      - name: Commit results.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add benchmarks/results.json
+          # Nothing to commit when the numbers round to the same values.
+          git diff --cached --quiet && exit 0
+          git commit -m "benchmark: update results.json [skip ci]"
+          git push

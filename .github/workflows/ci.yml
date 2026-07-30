@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_local_only
+          MYSQL_DATABASE: enterprise_ops
+          MYSQL_USER: demo
+          MYSQL_PASSWORD: demo_local_only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -u root -proot_local_only"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 30
+    env:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: "3306"
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: demo_local_only
+      MYSQL_DATABASE: enterprise_ops
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run typecheck -w @enterprise-ops/core -w @enterprise-ops/server -w benchmarks
+      - run: npm run build -w @enterprise-ops/core -w @enterprise-ops/server
+      - run: npm test -w @enterprise-ops/core
+      - run: npm test -w @enterprise-ops/server
