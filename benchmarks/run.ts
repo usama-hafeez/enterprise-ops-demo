@@ -109,7 +109,12 @@ function table(volumes: SeedConfig, naive: VariantResult, optimized: VariantResu
   ];
   const widths = rows[0]!.map((_, col) => Math.max(...rows.map((r) => r[col]!.length)));
   const rendered = rows
-    .map((r) => r.map((cell, col) => cell.padEnd(widths[col]! + 2)).join('').trimEnd())
+    .map((r) =>
+      r
+        .map((cell, col) => cell.padEnd(widths[col]! + 2))
+        .join('')
+        .trimEnd(),
+    )
     .join('\n');
   const stockRows = volumes.products * 4;
   return [

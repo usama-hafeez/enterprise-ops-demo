@@ -119,7 +119,10 @@ export async function runOptimizedPipeline(
       const allocationRows: unknown[][] = [];
       const lineAllocated = new Map<number, number>();
       const backorderRows: unknown[][] = [];
-      const reqAgg = new Map<number, { allocated: boolean; backordered: boolean; totalCents: number }>();
+      const reqAgg = new Map<
+        number,
+        { allocated: boolean; backordered: boolean; totalCents: number }
+      >();
       for (const req of reqBatch) {
         reqAgg.set(req.id, { allocated: false, backordered: false, totalCents: 0 });
       }
@@ -209,7 +212,15 @@ export async function runOptimizedPipeline(
         await insertMany(
           tx,
           'invoices',
-          ['number', 'customer_id', 'requisition_id', 'total_cents', 'amount_paid_cents', 'status', 'issued_at'],
+          [
+            'number',
+            'customer_id',
+            'requisition_id',
+            'total_cents',
+            'amount_paid_cents',
+            'status',
+            'issued_at',
+          ],
           invoiceRows,
         );
         await tx.run(
@@ -281,7 +292,12 @@ export async function runOptimizedPipeline(
       }
 
       if (appRows.length > 0) {
-        await insertMany(tx, 'payment_applications', ['payment_id', 'invoice_id', 'amount_cents'], appRows);
+        await insertMany(
+          tx,
+          'payment_applications',
+          ['payment_id', 'invoice_id', 'amount_cents'],
+          appRows,
+        );
       }
       if (touched.size > 0) {
         const ids = [...touched.keys()];

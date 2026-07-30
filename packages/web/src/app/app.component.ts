@@ -16,16 +16,16 @@ import { CiResultsComponent } from './ci-results.component';
       <p class="lede">
         The same requisition pipeline - allocation, backorders, invoicing, FIFO settlement -
         implemented twice. The naive variant does per-row lookups and full table loads with no
-        composite indexes; the optimized one batches reads, paginates by keyset, and runs with
-        them. Same input, provably identical output, very different cost.
+        composite indexes; the optimized one batches reads, paginates by keyset, and runs with them.
+        Same input, provably identical output, very different cost.
       </p>
 
       <div class="notice">
         <strong>What this page runs:</strong> SQLite (sql.js compiled to WebAssembly) in your
         browser, in a Web Worker - no server behind it. In-process SQLite pays no network
         round-trip, so the wall-clock gap here is much smaller than over a real connection; the
-        query counts are the signal. The table further down shows the headline measurement:
-        MySQL 8 in GitHub Actions.
+        query counts are the signal. The table further down shows the headline measurement: MySQL 8
+        in GitHub Actions.
         @if (volumes(); as v) {
           <span>
             Browser volumes: {{ v.requisitions | number }} requisitions,
@@ -56,8 +56,8 @@ import { CiResultsComponent } from './ci-results.component';
 
       <footer>
         <p>
-          All data is synthetic and deterministic (seeded PRNG). MIT licensed - the README
-          covers how to run the full MySQL version locally with docker compose.
+          All data is synthetic and deterministic (seeded PRNG). MIT licensed - the README covers
+          how to run the full MySQL version locally with docker compose.
         </p>
       </footer>
     </main>

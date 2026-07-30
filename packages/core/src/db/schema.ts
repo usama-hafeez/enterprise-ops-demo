@@ -148,7 +148,11 @@ export interface IndexDef {
 
 /** The composite indexes the optimized variant runs with and the naive one runs without. */
 export const compositeIndexes: IndexDef[] = [
-  { name: 'idx_stock_alloc', table: 'stock', columns: ['product_id', 'is_priority', 'unit_cost_cents'] },
+  {
+    name: 'idx_stock_alloc',
+    table: 'stock',
+    columns: ['product_id', 'is_priority', 'unit_cost_cents'],
+  },
   { name: 'idx_invoices_fifo', table: 'invoices', columns: ['customer_id', 'status', 'issued_at'] },
   { name: 'idx_requisitions_status', table: 'requisitions', columns: ['status', 'created_at'] },
 ];
@@ -183,7 +187,9 @@ export async function truncateAll(db: DbExecutor): Promise<void> {
       await db.run(`DELETE FROM ${table}`);
     }
     // Reset AUTOINCREMENT counters so both dialects hand out the same ids.
-    await db.run("DELETE FROM sqlite_sequence WHERE name IN ('" + TABLES_DROP_ORDER.join("', '") + "')");
+    await db.run(
+      "DELETE FROM sqlite_sequence WHERE name IN ('" + TABLES_DROP_ORDER.join("', '") + "')",
+    );
   }
 }
 

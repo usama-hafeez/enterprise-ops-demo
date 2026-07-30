@@ -100,10 +100,10 @@ export async function allocateLine(
       ]);
     }
     if (plan.backorderQty > 0) {
-      await tx.run("INSERT INTO backorders (requisition_line_id, qty, status) VALUES (?, ?, 'open')", [
-        line.id,
-        plan.backorderQty,
-      ]);
+      await tx.run(
+        "INSERT INTO backorders (requisition_line_id, qty, status) VALUES (?, ?, 'open')",
+        [line.id, plan.backorderQty],
+      );
     }
 
     return { ...plan, requisitionLineId: line.id };

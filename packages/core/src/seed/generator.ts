@@ -107,7 +107,12 @@ export async function seedDatabase(
       lines.push([r, rng.int(1, cfg.products), rng.int(1, cfg.maxQtyPerLine), 0]);
     }
   }
-  await insertMany(db, 'requisitions', ['ref', 'customer_id', 'status', 'created_at'], requisitions);
+  await insertMany(
+    db,
+    'requisitions',
+    ['ref', 'customer_id', 'status', 'created_at'],
+    requisitions,
+  );
   await insertMany(
     db,
     'requisition_lines',
@@ -142,7 +147,15 @@ export async function seedDatabase(
   await insertMany(
     db,
     'invoices',
-    ['number', 'customer_id', 'requisition_id', 'total_cents', 'amount_paid_cents', 'status', 'issued_at'],
+    [
+      'number',
+      'customer_id',
+      'requisition_id',
+      'total_cents',
+      'amount_paid_cents',
+      'status',
+      'issued_at',
+    ],
     invoices,
   );
 

@@ -15,7 +15,10 @@ import { DemoService } from './demo.service';
         <p class="tagline">{{ tagline() }}</p>
       </header>
 
-      <button (click)="run()" [disabled]="state().status === 'loading' || state().status === 'running'">
+      <button
+        (click)="run()"
+        [disabled]="state().status === 'loading' || state().status === 'running'"
+      >
         @if (state().status === 'loading') {
           fetching seed...
         } @else if (state().status === 'running') {
@@ -39,12 +42,30 @@ import { DemoService } from './demo.service';
       @if (state().status === 'done' && state().result; as result) {
         <table class="totals">
           <tbody>
-            <tr><th>allocations</th><td>{{ result.totals.allocations | number }}</td></tr>
-            <tr><th>backorders</th><td>{{ result.totals.backorders | number }}</td></tr>
-            <tr><th>invoices created</th><td>{{ result.totals.invoicesCreated | number }}</td></tr>
-            <tr><th>payments settled</th><td>{{ result.totals.payments | number }}</td></tr>
-            <tr><th>credits booked</th><td>{{ result.totals.credits | number }}</td></tr>
-            <tr><th>output hash</th><td class="hash">{{ result.outputHash }}</td></tr>
+            <tr>
+              <th>allocations</th>
+              <td>{{ result.totals.allocations | number }}</td>
+            </tr>
+            <tr>
+              <th>backorders</th>
+              <td>{{ result.totals.backorders | number }}</td>
+            </tr>
+            <tr>
+              <th>invoices created</th>
+              <td>{{ result.totals.invoicesCreated | number }}</td>
+            </tr>
+            <tr>
+              <th>payments settled</th>
+              <td>{{ result.totals.payments | number }}</td>
+            </tr>
+            <tr>
+              <th>credits booked</th>
+              <td>{{ result.totals.credits | number }}</td>
+            </tr>
+            <tr>
+              <th>output hash</th>
+              <td class="hash">{{ result.outputHash }}</td>
+            </tr>
           </tbody>
         </table>
       }

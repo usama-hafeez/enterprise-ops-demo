@@ -110,7 +110,9 @@ describe('settlePayment against a real (SQLite) database', () => {
     ]);
     expect(outcome.creditCents).toBe(0);
 
-    const invoices = await db.query('SELECT id, amount_paid_cents, status FROM invoices ORDER BY id');
+    const invoices = await db.query(
+      'SELECT id, amount_paid_cents, status FROM invoices ORDER BY id',
+    );
     expect(invoices).toEqual([
       { id: 1, amount_paid_cents: 1000, status: 'partial' },
       { id: 2, amount_paid_cents: 10000, status: 'paid' },
@@ -132,7 +134,9 @@ describe('settlePayment against a real (SQLite) database', () => {
     // Outstanding: 6000 + 8000 + 5000 = 19000; the rest is credit.
     expect(outcome.creditCents).toBe(11_000);
 
-    const credits = await db.query('SELECT customer_id, payment_id, amount_cents FROM credit_ledger');
+    const credits = await db.query(
+      'SELECT customer_id, payment_id, amount_cents FROM credit_ledger',
+    );
     expect(credits).toEqual([{ customer_id: 1, payment_id: 1, amount_cents: 11_000 }]);
   });
 });

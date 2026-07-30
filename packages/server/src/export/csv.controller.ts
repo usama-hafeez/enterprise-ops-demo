@@ -39,7 +39,9 @@ export class CsvController {
       }
     };
 
-    await write('record_type,requisition_ref,product_sku,warehouse,payment_id,invoice_number,qty,amount_cents\n');
+    await write(
+      'record_type,requisition_ref,product_sku,warehouse,payment_id,invoice_number,qty,amount_cents\n',
+    );
 
     const allocations = db.iterate<AllocationExportRow>(
       `SELECT r.ref AS ref, p.sku AS sku, w.code AS warehouse, a.qty AS qty, a.unit_cost_cents AS unit_cost_cents

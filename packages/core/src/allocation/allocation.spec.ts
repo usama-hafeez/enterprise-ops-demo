@@ -60,9 +60,10 @@ describe('allocateLine against a real (SQLite) database', () => {
     );
 
   const addLine = (qtyRequested: number) =>
-    db.run('INSERT INTO requisition_lines (requisition_id, product_id, qty_requested) VALUES (1, 1, ?)', [
-      qtyRequested,
-    ]);
+    db.run(
+      'INSERT INTO requisition_lines (requisition_id, product_id, qty_requested) VALUES (1, 1, ?)',
+      [qtyRequested],
+    );
 
   it('takes priority stock first even when it is farther and dearer', async () => {
     await addStock(1, 10, 100); // stock id 1: nearest and cheapest, not priority

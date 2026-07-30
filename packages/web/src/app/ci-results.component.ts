@@ -40,7 +40,12 @@ interface CiResults {
         </p>
         <table>
           <thead>
-            <tr><th>variant</th><th>queries</th><th>wall clock</th><th>peak RSS</th></tr>
+            <tr>
+              <th>variant</th>
+              <th>queries</th>
+              <th>wall clock</th>
+              <th>peak RSS</th>
+            </tr>
           </thead>
           <tbody>
             <tr>
